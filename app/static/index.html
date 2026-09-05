@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaptive Context Orchestrator Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/static/index.css">
+</head>
+<body>
+    <div class="glass-bg"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i data-lucide="cpu"></i>
+                </div>
+                <h2>ContextOrch</h2>
+            </div>
+            <nav class="nav-links">
+                <a href="#" class="nav-item active" data-tab="dashboard">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="memories">
+                    <i data-lucide="database"></i>
+                    <span>Memory Board</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="graph">
+                    <i data-lucide="share-2"></i>
+                    <span>Knowledge Graph</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="chat">
+                    <i data-lucide="message-square"></i>
+                    <span>Orchestrator Chat</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="status-badge">
+                    <span class="pulse-dot"></span>
+                    <span>API Connected</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="content-header">
+                <div>
+                    <h1 id="page-title">Dashboard Overview</h1>
+                    <p class="subtitle" id="page-subtitle">Real-time memory stats and hybrid retrieval analytics.</p>
+                </div>
+                <div class="header-actions">
+                    <div class="model-select-wrapper">
+                        <i data-lucide="sparkles" style="width: 14px; color: var(--accent);"></i>
+                        <select id="model-select" class="model-select">
+                            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                            <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                            <option value="gemini-2.5-flash-thinking">Gemini 2.5 Thinking</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-secondary" id="btn-export-markdown" title="Export memories to Markdown">
+                        <i data-lucide="download"></i> Export Markdown
+                    </button>
+                    <button class="btn btn-primary" id="btn-add-memory-modal">
+                        <i data-lucide="plus"></i> Add Memory
+                    </button>
+                </div>
+            </header>
+
+            <!-- TAB: Dashboard -->
+            <section id="tab-dashboard" class="tab-pane active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-blue">
+                            <i data-lucide="database"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Total Memories</h3>
+                            <p class="stat-value" id="stat-total-memories">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-purple">
+                            <i data-lucide="layers"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Categories</h3>
+                            <p class="stat-value" id="stat-total-categories">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-cyan">
+                            <i data-lucide="award"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Avg Importance</h3>
+                            <p class="stat-value" id="stat-avg-importance">0.0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-layout">
+                    <div class="dashboard-card card-half">
+                        <div class="card-header">
+                            <h3>Category Distribution</h3>
+                            <i data-lucide="pie-chart"></i>
+                        </div>
+                        <div class="card-body">
+                            <div class="category-list" id="category-distribution-list">
+                                <p class="empty-state">No categories available yet.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card card-half">
+                        <div class="card-header">
+                            <h3>System Capabilities</h3>
+                            <i data-lucide="info"></i>
+                        </div>
+                        <div class="card-body">
+                            <div class="tips-container">
+                                <div class="tip-item">
+                                    <span class="tip-num">1</span>
+                                    <div>
+                                        <h4>Vector Similarity (70%)</h4>
+                                        <p>Encodes memories using local transformer vectors and computes cosine similarity instantly.</p>
+                                    </div>
+                                </div>
+                                <div class="tip-item">
+                                    <span class="tip-num">2</span>
+                                    <div>
+                                        <h4>Keyword Search (30%)</h4>
+                                        <p>Employs BM25Okapi search to make sure exact matches (names, ports, keys) are never missed.</p>
+                                    </div>
+                                </div>
+                                <div class="tip-item">
+                                    <span class="tip-num">3</span>
+                                    <div>
+                                        <h4>Decaying Recency (Exponential)</h4>
+                                        <p>Adjusts retrieval scores automatically using exponential half-life decay.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB: Memories -->
+            <section id="tab-memories" class="tab-pane">
+                <div class="memory-controls">
+                    <div class="search-box">
+                        <i data-lucide="search"></i>
+                        <input type="text" id="memory-search-input" placeholder="Search memories by content, category or tags...">
+                    </div>
+                    <button class="btn btn-secondary" id="btn-compact-memories" title="Synthesize redundant notes">
+                        <i data-lucide="zap"></i> Compact Redundant Notes
+                    </button>
+                </div>
+                <div class="memory-grid" id="memories-container">
+                    <p class="empty-state">Loading memories...</p>
+                </div>
+            </section>
+
+            <!-- TAB: Knowledge Graph -->
+            <section id="tab-graph" class="tab-pane">
+                <div class="dashboard-card" style="min-height: 400px;">
+                    <div class="card-header">
+                        <h3>Knowledge Graph Relationships (Graph-RAG)</h3>
+                        <i data-lucide="share-2"></i>
+                    </div>
+                    <div class="card-body">
+                        <div id="graph-visualization-container" class="graph-container">
+                            <p class="empty-state">Loading entity relationships...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB: Chat -->
+            <section id="tab-chat" class="tab-pane">
+                <div class="chat-layout">
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chat-messages-box">
+                            <div class="message assistant-message">
+                                <div class="message-avatar">
+                                    <i data-lucide="bot"></i>
+                                </div>
+                                <div class="message-bubble">
+                                    Hello! Ask me anything. Responses stream in real-time with context grounding.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" id="chat-query-input" placeholder="Ask a question and let context take over...">
+                            <button class="btn btn-primary" id="btn-send-chat">
+                                <span>Send</span>
+                                <i data-lucide="send"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="retrieval-panel">
+                        <div class="panel-header">
+                            <h3>Retrieved Context Breakdown</h3>
+                            <i data-lucide="network"></i>
+                        </div>
+                        <div class="panel-body" id="retrieval-breakdown-container">
+                            <p class="empty-state">Send a chat message to inspect memory retrieval matching.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL: Add Memory -->
+    <div class="modal-backdrop" id="add-memory-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Add Memory Snippet</h3>
+                <button class="btn-close" id="btn-close-modal"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="tabs-header">
+                    <button class="modal-tab-btn active" data-mode="auto">AI Auto-Extract</button>
+                    <button class="modal-tab-btn" data-mode="upload">Multi-Modal Upload</button>
+                    <button class="modal-tab-btn" data-mode="manual">Manual Entry</button>
+                </div>
+
+                <!-- Form: Auto Extract -->
+                <div class="modal-tab-content active" id="mode-auto">
+                    <div class="form-group">
+                        <label for="auto-memory-content">Memory Content</label>
+                        <textarea id="auto-memory-content" rows="4" placeholder="Type or paste any information here. The LLM will automatically extract category, tags, importance rating, and entity graph relations."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="auto-memory-ttl">TTL Auto-Expiration (Days, optional)</label>
+                        <input type="number" id="auto-memory-ttl" placeholder="e.g. 7 for 7-day transient note (leave blank for permanent)">
+                    </div>
+                </div>
+
+                <!-- Form: Multi-Modal Upload -->
+                <div class="modal-tab-content" id="mode-upload">
+                    <div class="form-group">
+                        <label for="upload-memory-file">Architecture Diagram / Screenshot / File</label>
+                        <input type="file" id="upload-memory-file" accept="image/*,.pdf,.txt">
+                    </div>
+                    <div class="form-group">
+                        <label for="upload-memory-desc">Optional Description / Notes</label>
+                        <textarea id="upload-memory-desc" rows="3" placeholder="Context notes about this uploaded asset..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Form: Manual Entry -->
+                <div class="modal-tab-content" id="mode-manual">
+                    <div class="form-group">
+                        <label for="manual-memory-content">Memory Content</label>
+                        <textarea id="manual-memory-content" rows="3" placeholder="Database credentials, project state, decisions..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-half">
+                            <label for="manual-memory-category">Category</label>
+                            <input type="text" id="manual-memory-category" placeholder="architecture, personal, bug...">
+                        </div>
+                        <div class="form-group col-half">
+                            <label for="manual-memory-importance">Importance (0.0 to 1.0)</label>
+                            <input type="number" id="manual-memory-importance" min="0" max="1" step="0.1" value="0.5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-memory-tags">Tags (comma-separated)</label>
+                        <input type="text" id="manual-memory-tags" placeholder="python, database, auth">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-cancel-memory">Cancel</button>
+                <button class="btn btn-primary" id="btn-save-memory">Save Memory</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Edit Memory -->
+    <div class="modal-backdrop" id="edit-memory-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Edit Memory Snippet</h3>
+                <button class="btn-close" id="btn-close-edit-modal"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-memory-id">
+                <div class="form-group">
+                    <label for="edit-memory-content">Memory Content</label>
+                    <textarea id="edit-memory-content" rows="3" placeholder="Database credentials, project state, decisions..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-half">
+                        <label for="edit-memory-category">Category</label>
+                        <input type="text" id="edit-memory-category" placeholder="architecture, personal, bug...">
+                    </div>
+                    <div class="form-group col-half">
+                        <label for="edit-memory-importance">Importance (0.0 to 1.0)</label>
+                        <input type="number" id="edit-memory-importance" min="0" max="1" step="0.1" value="0.5">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="edit-memory-tags">Tags (comma-separated)</label>
+                    <input type="text" id="edit-memory-tags" placeholder="python, database, auth">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-cancel-edit-memory">Cancel</button>
+                <button class="btn btn-primary" id="btn-update-memory">Update Memory</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/index.js"></script>
+</body>
+</html>

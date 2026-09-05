@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "content": "Architecture Decision: We use SQLite with pre-computed float32 BLOB embeddings for high-speed local vector retrieval.",
+        "category": "architecture",
+        "importance": 0.9,
+        "timestamp": 1778583153.0,
+        "tags": [
+            "database",
+            "embeddings",
+            "sqlite"
+        ]
+    },
+    {
+        "id": 2,
+        "content": "API Guideline: All memory ingestion endpoints support automated AI metadata extraction with Gemini 2.5 Flash.",
+        "category": "guidelines",
+        "importance": 0.8,
+        "timestamp": 1778583200.0,
+        "tags": [
+            "api",
+            "gemini",
+            "metadata"
+        ]
+    },
+    {
+        "id": 3,
+        "content": "Search Strategy: Blended ranking combines 70% semantic similarity with 30% BM25 keyword matching plus exponential time decay.",
+        "category": "search",
+        "importance": 0.85,
+        "timestamp": 1778583250.0,
+        "tags": [
+            "retrieval",
+            "bm25",
+            "ranking"
+        ]
+    }
+]
